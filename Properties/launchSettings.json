@@ -1,0 +1,12 @@
+﻿{
+    "profiles": {
+        "MyBotRe": {
+            "commandName": "Project",
+            "environmentVariables": {
+                "TOKEN": "5682524202:AAFvBxG64qgCraFKbGnnXRDKW81eIOEidrM"
+            }
+            
+        }
+
+    }
+}
