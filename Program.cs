@@ -1,12 +1,10 @@
-﻿using AngleSharp;
-using System;
-using System.Configuration;
+﻿using MyBotRE.Handlers;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-internal class Program
+public class Program
 {
     const int maxCount = 8;
     private static async Task Main(string[] args)
@@ -29,9 +27,8 @@ internal class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Exception while handling: {update.Type}: {ex}");   
+            Console.WriteLine($"Exception while handling: {update.Type}: {ex}");
         }
-
     }
 
     private static async Task BotInlineQueryReceived(ITelegramBotClient botClient, InlineQuery inlineQuery)
@@ -41,7 +38,19 @@ internal class Program
 
     private static async Task BotMessageReceived(ITelegramBotClient botClient, Message message)
     {
-        await Task.CompletedTask;
+        try
+        {
+            await (message.Text! switch
+            {
+                "/help" => MessageHandler.GetHelp(botClient, message.Chat.Id),
+                "/get" => MessageHandler.GetDistros(botClient, message.Chat.Id),
+                _ => Task.CompletedTask
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception while handling message: {ex}");
+        }
     }
 
     private static async Task ErrorHandler(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
@@ -55,5 +64,5 @@ internal class Program
         await Task.Run(() => Console.WriteLine(ErrorMessage));
     }
 
-   
+
 }
