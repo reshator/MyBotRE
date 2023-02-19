@@ -1,10 +1,5 @@
 ﻿using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyBotRE
 {
@@ -14,8 +9,8 @@ namespace MyBotRE
         private static HttpClient httpClient = new HttpClient();
         private static HtmlParser htmlParser = new HtmlParser();
 
-        public static async void GetDistrosList() => await ParseHTML();
-        
+        public static List<string> GetDistrosList() => ParseHTML().Result;
+
         private static async Task<List<string>> ParseHTML()
         {
             string html = ReadHTML(Link).Result;
@@ -23,7 +18,6 @@ namespace MyBotRE
             return HTMLDocument
                 .QuerySelectorAll("select[name=distribution] > option")
                 .Select(item => item.Text())
-                //.Where(item => item != "Select Distribution")
                 .ToList();
             //distroSelector.ForEach(item => Console.WriteLine(item));
         }

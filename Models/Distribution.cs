@@ -1,6 +1,6 @@
 ﻿namespace MyBotRE.Models
 {
-    internal class Distribution
+    public class Distribution
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -9,6 +9,6 @@
         public List<string>? Categories { get; set; }
         public string? Status { get; set; }
         public string? Description { get; set; }
-        public Uri? MainLink { get; set; }   
+        public Uri? MainLink { get; set; }
     }
 }

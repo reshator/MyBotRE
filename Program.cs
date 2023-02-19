@@ -1,4 +1,5 @@
-﻿using MyBotRE.Handlers;
+﻿using MyBotRE.Adapters;
+using MyBotRE.Handlers;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
@@ -42,8 +43,10 @@ public class Program
         {
             await (message.Text! switch
             {
+                "/start" => MessageHandler.GetStart(botClient, message.Chat.Id),
                 "/help" => MessageHandler.GetHelp(botClient, message.Chat.Id),
                 "/get" => MessageHandler.GetDistros(botClient, message.Chat.Id),
+                "/debug" => MessageHandler.GetDistrosMessage(botClient, message.Chat.Id),
                 _ => Task.CompletedTask
             });
         }
