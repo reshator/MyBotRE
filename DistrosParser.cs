@@ -14,17 +14,18 @@ namespace MyBotRE
         private static HttpClient httpClient = new HttpClient();
         private static HtmlParser htmlParser = new HtmlParser();
 
-        public static async void GetDistrosList()
+        public static async void GetDistrosList() => await ParseHTML();
+        
+        private static async Task<List<string>> ParseHTML()
         {
-            await ParseHTML();
-        }
-
-        private static async Task ParseHTML()
-        {
-            string html = ReadHTML("https://distrowatch.com/dwres.php?resource=bittorrent").Result;
+            string html = ReadHTML(Link).Result;
             var HTMLDocument = await htmlParser.ParseDocumentAsync(html);
-            var distroSelector = HTMLDocument.QuerySelectorAll("select[name=distribution] > content").Select(item => item.Text()).ToList();
-            distroSelector.ForEach(item => Console.WriteLine(item));
+            return HTMLDocument
+                .QuerySelectorAll("select[name=distribution] > option")
+                .Select(item => item.Text())
+                //.Where(item => item != "Select Distribution")
+                .ToList();
+            //distroSelector.ForEach(item => Console.WriteLine(item));
         }
         private static async Task<string> ReadHTML(string url)
         {
