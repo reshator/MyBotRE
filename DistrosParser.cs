@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace MyBotRE
 {
-    internal class DistrosParser
+    public static class DistrosParser
     {
+
     }
 }

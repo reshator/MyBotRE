@@ -9,5 +9,6 @@
         public List<string>? Categories { get; set; }
         public string? Status { get; set; }
         public string? Description { get; set; }
+        public Uri? MainLink { get; set; }   
     }
 }
