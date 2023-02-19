@@ -14,9 +14,9 @@ namespace MyBotRE
         private static HttpClient httpClient = new HttpClient();
         private static HtmlParser htmlParser = new HtmlParser();
 
-        public static void GetDistrosList()
+        public static async void GetDistrosList()
         {
-            ParseHTML();
+            await ParseHTML();
         }
 
         private static async Task ParseHTML()
