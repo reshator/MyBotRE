@@ -18,6 +18,7 @@ namespace MyBotRE.Handlers
 
         public static Task GetDistros(ITelegramBotClient botClient, long chatId)
         {
+            DistrosParser.GetDistrosList();
             return botClient.SendTextMessageAsync(chatId, "still rajik");
         }
     }
