@@ -28,18 +28,18 @@ namespace MyBotRE.Handlers
         {
             string msg = string.Empty;
 
-            //var lsit = DistrosParser.GetDistrosList();
-            //foreach (var item in lsit)
-            //{
-            //    msg += item + "\n";
+            var lsit = DistrosParser.GetDistrosList();
+            foreach (var item in lsit)
+            {
+                msg += item + "\n";
 
-            //    if (msg.Length > 4095)
-            //    {
-            //        break;
-            //    }
-            //}
+                if (msg.Length > 4095)
+                {
+                    break;
+                }
+            }
 
-            return botClient.SendTextMessageAsync(chatId, "add");
+            return botClient.SendTextMessageAsync(chatId, msg);
         }
     }
 }
