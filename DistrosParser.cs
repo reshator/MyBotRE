@@ -23,7 +23,7 @@ namespace MyBotRE
         {
             string html = ReadHTML("https://distrowatch.com/dwres.php?resource=bittorrent").Result;
             var HTMLDocument = await htmlParser.ParseDocumentAsync(html);
-            var distroSelector = HTMLDocument.QuerySelectorAll("select[name=distribution]").Select(item => item.Text()).ToList();
+            var distroSelector = HTMLDocument.QuerySelectorAll("select[name=distribution] > content").Select(item => item.Text()).ToList();
             distroSelector.ForEach(item => Console.WriteLine(item));
         }
         private static async Task<string> ReadHTML(string url)
