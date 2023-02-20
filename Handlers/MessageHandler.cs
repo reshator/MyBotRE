@@ -21,7 +21,7 @@ namespace MyBotRE.Handlers
 
         public static Task GetDistros(ITelegramBotClient botClient, long chatId, string distname)
         {
-            var a = DistrosParser.GetDistribution(distname).Result;
+            var a = DistrosParser.GetDistribution(distname.Split()[1]).Result;
             string message = $"{a.Name}\n" +
                 $"{a.LastUpdate}\n" +
                 $"\n" +

@@ -46,7 +46,7 @@ public class Program
             {
                 "/start" => MessageHandler.GetStart(botClient, message.Chat.Id,message.Chat.Username!, message.Chat.Title),
                 "/help" => MessageHandler.GetHelp(botClient, message.Chat.Id),
-                "/get" => MessageHandler.GetDistros(botClient, message.Chat.Id, "arch"),
+                var a when a.Contains("/get") => MessageHandler.GetDistros(botClient, message.Chat.Id, message.Text!),
                 "/debug" => MessageHandler.GetDistrosMessage(botClient, message.Chat.Id),
                 "/send" => message.From!.Username == "reshator" ? Sender.SendMessageToEveryone(botClient) : Task.CompletedTask,
                 _ => Task.CompletedTask
