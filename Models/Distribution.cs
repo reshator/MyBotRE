@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string? LastUpdate { get; set; }
         public string? BasedOn { get; set; }
         public List<string>? DesktopEnvironments { get; set; }
         public List<string>? Categories { get; set; }

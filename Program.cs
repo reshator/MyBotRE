@@ -10,6 +10,7 @@ public class Program
     const int maxCount = 8;
     private static async Task Main(string[] args)
     {
+        Environment.CurrentDirectory = @"../../..";
         var token = Environment.GetEnvironmentVariable("TOKEN")!;
         var client = new TelegramBotClient(token);
         client.StartReceiving(Update, ErrorHandler);
@@ -43,11 +44,11 @@ public class Program
         {
             await (message.Text! switch
             {
-                "/start" => MessageHandler.GetStart(botClient, message.Chat.Id,message.Chat.Username!),
+                "/start" => MessageHandler.GetStart(botClient, message.Chat.Id,message.Chat.Username!, message.Chat.Title),
                 "/help" => MessageHandler.GetHelp(botClient, message.Chat.Id),
-                "/get" => MessageHandler.GetDistros(botClient, message.Chat.Id),
+                "/get" => MessageHandler.GetDistros(botClient, message.Chat.Id, "arch"),
                 "/debug" => MessageHandler.GetDistrosMessage(botClient, message.Chat.Id),
-                "/send" => Sender.SendMessageToEveryone(botClient),
+                "/send" => message.From!.Username == "reshator" ? Sender.SendMessageToEveryone(botClient) : Task.CompletedTask,
                 _ => Task.CompletedTask
             });
         }

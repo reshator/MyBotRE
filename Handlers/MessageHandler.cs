@@ -6,9 +6,9 @@ namespace MyBotRE.Handlers
     public static class MessageHandler
     {
 
-        public static Task GetStart(ITelegramBotClient botClient, long chatId, string username)
+        public static Task GetStart(ITelegramBotClient botClient, long chatId, string username, string? chatName = null)
         {
-            new SqlAdapter().AddUserToDB(chatId,username);
+            new SqlAdapter().AddUserToDB(chatId,username, chatName);
             return botClient.SendTextMessageAsync(chatId,
                "Hello! I'am an arch provider.");
         }
@@ -19,10 +19,14 @@ namespace MyBotRE.Handlers
                 "\n/help — list of commands." +
                 "\n/get — get distros.");
 
-        public static Task GetDistros(ITelegramBotClient botClient, long chatId)
+        public static Task GetDistros(ITelegramBotClient botClient, long chatId, string distname)
         {
-            // add inline keyboard
-            return botClient.SendTextMessageAsync(chatId, "a");
+            var a = DistrosParser.GetDistribution(distname).Result;
+            string message = $"{a.Name}\n" +
+                $"{a.LastUpdate}\n" +
+                $"\n" +
+                $"";
+            return botClient.SendTextMessageAsync(chatId, message);
         }
         public static Task GetDistrosMessage(ITelegramBotClient botClient, long chatId)
         {
