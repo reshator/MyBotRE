@@ -4,37 +4,38 @@ namespace MyBotRE.Adapters
 {
     public class SqlAdapter
     {
-        string connectionString = "Data Source=usersdata.db";
+        string connectionString = Environment.GetEnvironmentVariable("connectionString")!;
 
-        public void GetConnectionToDB()
+        public SqlAdapter()
+        {
+        }
+
+        public async Task GetConnectionToDB()
         {
             using (var connection = new SqliteConnection(connectionString))
             {
-                connection.Open();
-                SqliteCommand command = connection.CreateCommand();
+                await connection.OpenAsync();
             }
         }
 
         public async Task AddUserToDB(long? userId, string username, string chatName)
         {
             using var connection = new SqliteConnection(connectionString);
-            connection.Open();
+            await connection.OpenAsync();
             if (username is null)
                 username = chatName;
-            SqliteCommand command = 
+            SqliteCommand command =
                 new SqliteCommand($"INSERT INTO Users(user_id, username) values ({userId}, '{username}')", connection);
-            command.CommandTimeout = 0;
-            await Task.Run(() => Console.WriteLine($"В таблицу Users добавлено объектов: {command.ExecuteNonQuery()}"));
+            await Task.Run(() => Console.WriteLine($"В таблицу Users добавлено объектов: {command.ExecuteNonQueryAsync()}"));
         }
-        
+
         public async Task<SqliteCommand> SelectAllUserId()
         {
             var connection = new SqliteConnection(connectionString);
-
-            connection.Open();
+            await connection.OpenAsync();
             SqliteCommand command = new SqliteCommand("select user_id, username from Users", connection);
             command.CommandTimeout = 0;
-            await Task.Run(() => Console.WriteLine($"Выбрано записей: {command.ExecuteNonQuery()}"));
+            await Task.Run(() => Console.WriteLine($"Выбрано записей: {command.ExecuteNonQueryAsync()}"));
             return command;
         }
     }

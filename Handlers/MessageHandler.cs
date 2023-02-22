@@ -8,7 +8,7 @@ namespace MyBotRE.Handlers
 
         public static Task GetStart(ITelegramBotClient botClient, long chatId, string username, string? chatName = null)
         {
-            new SqlAdapter().AddUserToDB(chatId,username, chatName);
+            new SqlAdapter().AddUserToDB(chatId, username, chatName);
             return botClient.SendTextMessageAsync(chatId,
                "Hello! I'am an arch provider.");
         }

@@ -13,7 +13,7 @@ namespace MyBotRE.Utils
             {
                 var id = sqlReader.GetInt64(0);
                 var username = sqlReader.GetString(1);
-             
+
                 await botClient.SendTextMessageAsync(id, $"Дорогой @{username}, " + File.ReadAllText(@"Utils/Message.txt"));
             }
         }

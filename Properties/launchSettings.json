@@ -3,7 +3,8 @@
         "MyBotRe": {
             "commandName": "Project",
             "environmentVariables": {
-                "TOKEN": "5682524202:AAFvBxG64qgCraFKbGnnXRDKW81eIOEidrM"
+                "TOKEN": "5682524202:AAFvBxG64qgCraFKbGnnXRDKW81eIOEidrM",
+                "connectionString": "Data Source=usersdata.db"
             }
             
         }
