@@ -6,10 +6,10 @@ namespace MyBotRE.Handlers
     public static class MessageHandler
     {
 
-        public static Task GetStart(ITelegramBotClient botClient, long chatId, string username, string? chatName = null)
+        public static async Task GetStart(ITelegramBotClient botClient, long chatId, string username, string? chatName = null)
         {
             new SqlAdapter().AddUserToDB(chatId, username, chatName);
-            return botClient.SendTextMessageAsync(chatId,
+            await botClient.SendTextMessageAsync(chatId,
                "Hello! I'am an arch provider.");
         }
 
@@ -19,16 +19,26 @@ namespace MyBotRE.Handlers
                 "\n/help — list of commands." +
                 "\n/get — get distros.");
 
-        public static Task GetDistros(ITelegramBotClient botClient, long chatId, string distname)
+        public static async Task GetDistros(ITelegramBotClient botClient, long chatId, string? distname)
         {
-            var a = DistrosParser.GetDistribution(distname.Split()[1]).Result;
-            string message = $"{a.Name}\n" +
-                $"{a.LastUpdate}\n" +
-                $"\n" +
-                $"";
-            return botClient.SendTextMessageAsync(chatId, message);
+            string message;
+            var command = distname!.Split();
+            if (command.Length == 2)
+            {
+                var distributionName = DistrosParser.GetDistribution(command[1]).Result;
+                message = distributionName.GetInfo();
+
+            }
+            else
+            {
+                var distributionName = DistrosParser.GetDistribution(distname).Result;
+                message = distributionName.GetInfo();
+
+            }
+
+            await botClient.SendTextMessageAsync(chatId, message);
         }
-        public static Task GetDistrosMessage(ITelegramBotClient botClient, long chatId)
+        public static async Task GetDistrosMessage(ITelegramBotClient botClient, long chatId)
         {
             string msg = string.Empty;
 
@@ -43,7 +53,7 @@ namespace MyBotRE.Handlers
                 }
             }
 
-            return botClient.SendTextMessageAsync(chatId, msg);
+            await botClient.SendTextMessageAsync(chatId, msg);
         }
     }
 }

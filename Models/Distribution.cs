@@ -6,10 +6,22 @@
         public string Name { get; set; }
         public string? LastUpdate { get; set; }
         public string? BasedOn { get; set; }
-        public List<string>? DesktopEnvironments { get; set; }
-        public List<string>? Categories { get; set; }
+        public string? DesktopEnvironments { get; set; }
+        public string? Categories { get; set; }
+        public string? Architecture { get; set; }
         public string? Status { get; set; }
         public string? Description { get; set; }
-        public Uri? MainLink { get; set; }
+        public string? MainLink { get; set; }
+
+        public virtual string GetInfo()
+        {
+            return $"{Name}\n" +
+                $"{LastUpdate}\n" +
+                $"Based on: {BasedOn}\n" +
+                $"DE: {DesktopEnvironments}\n" +
+                $"Category: {Categories}\n" +
+                $"Status: {Status}\n" +
+                $"\n{Description}";
+        }
     }
 }

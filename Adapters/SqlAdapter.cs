@@ -6,10 +6,6 @@ namespace MyBotRE.Adapters
     {
         string connectionString = Environment.GetEnvironmentVariable("connectionString")!;
 
-        public SqlAdapter()
-        {
-        }
-
         public async Task GetConnectionToDB()
         {
             using (var connection = new SqliteConnection(connectionString))
@@ -26,7 +22,7 @@ namespace MyBotRE.Adapters
                 username = chatName;
             SqliteCommand command =
                 new SqliteCommand($"INSERT INTO Users(user_id, username) values ({userId}, '{username}')", connection);
-            await Task.Run(() => Console.WriteLine($"В таблицу Users добавлено объектов: {command.ExecuteNonQueryAsync()}"));
+            await Task.Run(() => Console.WriteLine($"В таблицу Users добавлено объектов: {command.ExecuteNonQuery()}"));
         }
 
         public async Task<SqliteCommand> SelectAllUserId()
@@ -34,8 +30,7 @@ namespace MyBotRE.Adapters
             var connection = new SqliteConnection(connectionString);
             await connection.OpenAsync();
             SqliteCommand command = new SqliteCommand("select user_id, username from Users", connection);
-            command.CommandTimeout = 0;
-            await Task.Run(() => Console.WriteLine($"Выбрано записей: {command.ExecuteNonQueryAsync()}"));
+            await Task.Run(() => Console.WriteLine($"Выбрано записей: {command.ExecuteNonQuery()}"));
             return command;
         }
     }

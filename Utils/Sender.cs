@@ -3,7 +3,7 @@ using Telegram.Bot;
 
 namespace MyBotRE.Utils
 {
-    internal class Sender
+    public class Sender
     {
         public static async Task SendMessageToEveryone(ITelegramBotClient botClient)
         {
@@ -14,7 +14,14 @@ namespace MyBotRE.Utils
                 var id = sqlReader.GetInt64(0);
                 var username = sqlReader.GetString(1);
 
-                await botClient.SendTextMessageAsync(id, $"Дорогой @{username}, " + File.ReadAllText(@"Utils/Message.txt"));
+                if (id > 0)
+                {
+                    await botClient.SendTextMessageAsync(id, $"Дорогой(ая) @{username}, " + File.ReadAllText(@"Utils/Message.txt"));
+                }
+                else
+                {
+                    await botClient.SendTextMessageAsync(id, $"Дорогой {username}, " + File.ReadAllText(@"Utils/Message.txt"));
+                }
             }
         }
     }
