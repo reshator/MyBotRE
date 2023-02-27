@@ -1,4 +1,5 @@
-﻿using MyBotRE.Handlers;
+﻿using MyBotRE;
+using MyBotRE.Handlers;
 using MyBotRE.Utils;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
@@ -7,7 +8,6 @@ using Telegram.Bot.Types.Enums;
 
 public class Program
 {
-    const int maxCount = 8;
     private static async Task Main(string[] args)
     {
         Environment.CurrentDirectory = @"../../..";
@@ -24,6 +24,7 @@ public class Program
             {
                 UpdateType.Message => BotMessageReceived(botClient, update.Message!),
                 UpdateType.InlineQuery => BotInlineQueryReceived(botClient, update.InlineQuery!),
+                UpdateType.CallbackQuery => BotCallbackQueryReceived(botClient, update.CallbackQuery!),
                 _ => Task.CompletedTask
             });
         }
@@ -31,6 +32,16 @@ public class Program
         {
             Console.WriteLine($"Exception while handling: {update.Type}: {ex}");
         }
+    }
+
+    private static async Task BotCallbackQueryReceived(ITelegramBotClient botClient, CallbackQuery callbackQuery)
+    {
+        await (callbackQuery.Data! switch
+        {
+            ">>" => InlineHandler.GetDistroListInline(DistrosParser.GetDistrosList()),
+            "<<" => InlineHandler.GetDistroListInline(DistrosParser.GetDistrosList()),
+            _ => Task.CompletedTask
+        });
     }
 
     private static async Task BotInlineQueryReceived(ITelegramBotClient botClient, InlineQuery inlineQuery)

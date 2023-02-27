@@ -1,5 +1,6 @@
 ﻿using MyBotRE.Adapters;
 using Telegram.Bot;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace MyBotRE.Handlers
 {
@@ -23,37 +24,28 @@ namespace MyBotRE.Handlers
         {
             string message;
             var command = distname!.Split();
-            if (command.Length == 2)
-            {
-                var distributionName = DistrosParser.GetDistribution(command[1]).Result;
-                message = distributionName.GetInfo();
-
-            }
-            else
-            {
-                var distributionName = DistrosParser.GetDistribution(distname).Result;
-                message = distributionName.GetInfo();
-
-            }
-
-            await botClient.SendTextMessageAsync(chatId, message);
+            var distributionName = DistrosParser.GetDistribution(command[1]).Result;
+            message = distributionName.GetInfo();
+            await using Stream stream = System.IO.File.OpenRead(distributionName.imagePath);
+            await botClient.SendPhotoAsync(chatId, new Telegram.Bot.Types.InputFiles.InputOnlineFile(stream), message);
         }
         public static async Task GetDistrosMessage(ITelegramBotClient botClient, long chatId)
         {
-            string msg = string.Empty;
+            string msg = "Choose";
 
-            var lsit = DistrosParser.GetDistrosList();
-            foreach (var item in lsit)
-            {
-                msg += item + "\n";
+            //var lsit = DistrosParser.GetDistrosList();
+            //foreach (var item in lsit)
+            //{
+            //    msg += item + "\n";
 
-                if (msg.Length > 4095)
-                {
-                    break;
-                }
-            }
+            //    if (msg.Length > 4095)
+            //    {
+            //        break;
+            //    }
+            //}
+            InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(InlineHandler.GetDistroListInline(DistrosParser.GetDistrosList()).Result);
 
-            await botClient.SendTextMessageAsync(chatId, msg);
+            await botClient.SendTextMessageAsync(chatId, msg,replyMarkup: inlineKeyboard);
         }
     }
 }

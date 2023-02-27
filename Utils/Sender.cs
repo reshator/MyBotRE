@@ -9,6 +9,7 @@ namespace MyBotRE.Utils
         {
             var selection = new SqlAdapter().SelectAllUserId().Result;
             using var sqlReader = selection.ExecuteReader();
+
             while (sqlReader.Read())   // построчно считываем данные
             {
                 var id = sqlReader.GetInt64(0);

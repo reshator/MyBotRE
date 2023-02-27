@@ -2,6 +2,7 @@
 {
     public class Distribution
     {
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string? LastUpdate { get; set; }
@@ -9,6 +10,8 @@
         public string? DesktopEnvironments { get; set; }
         public string? Categories { get; set; }
         public string? Architecture { get; set; }
+        public string? imagePath { get; set; }
+
         public string? Status { get; set; }
         public string? Description { get; set; }
         public string? MainLink { get; set; }
