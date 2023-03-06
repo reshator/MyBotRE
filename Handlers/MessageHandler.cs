@@ -26,8 +26,8 @@ namespace MyBotRE.Handlers
             var command = distname!.Split();
             var distributionName = DistrosParser.GetDistribution(command[1]).Result;
             message = distributionName.GetInfo();
-            await using Stream stream = System.IO.File.OpenRead(distributionName.imagePath);
-            await botClient.SendPhotoAsync(chatId, new Telegram.Bot.Types.InputFiles.InputOnlineFile(stream), message);
+            //await using Stream stream = System.IO.File.OpenRead(distributionName.imagePath);
+            await botClient.SendTextMessageAsync(chatId, message);
         }
         public static async Task GetDistrosMessage(ITelegramBotClient botClient, long chatId)
         {

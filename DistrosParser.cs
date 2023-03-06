@@ -25,20 +25,21 @@ namespace MyBotRE
 
 #nullable disable
             dist.Name = HTMLDocument.QuerySelector("h1").Text();
-            dist.LastUpdate = HTMLDocument.QuerySelector("td.TablesTitle > div").Text();
-            dist.BasedOn = string.Join(", ", HTMLDocument.QuerySelectorAll("td.TablesTitle > ul > li:nth-child(2) > a").Select(item => item.Text()));
-            dist.DesktopEnvironments = string.Join(",", HTMLDocument.QuerySelectorAll("td.TablesTitle > ul > li:nth-child(5) > a").Select(item => item.Text()));
-            dist.Categories = string.Join(", ", HTMLDocument.QuerySelectorAll("td.TablesTitle > ul > li:nth-child(6) > a").Select(item => item.Text()));
-            dist.Architecture = string.Join(", ", HTMLDocument.QuerySelectorAll("td.TablesTitle > ul > li:nth-child(4) > a").Select(item => item.Text()));
-            dist.Status = HTMLDocument.QuerySelector("td.TablesTitle > ul > li:nth-child(7) > font").Text();
-            dist.Description = HTMLDocument.QuerySelector("td.TablesTitle").Text().Split("\n")[6];
-            var path = HTMLDocument.QuerySelector("td.TablesTitle > img").GetAttribute("src");
-            HttpResponseMessage httpResponse = await httpClient.GetAsync($"{Link}/{path}");
-            using (FileStream stream = new FileStream($@"img/{distroName}.png", FileMode.OpenOrCreate))
-            {
-                await httpResponse.Content.CopyToAsync(stream);
-            }
-            dist.imagePath = $@"img/{distroName}.png";
+            dist.LastUpdate = HTMLDocument.QuerySelector("td.TablesTitle > div:nth-child(2) > h2").Text();
+            dist.BasedOn = string.Join(", ", HTMLDocument.QuerySelectorAll("td.TablesTitle > div:nth-child(2) > ul > li:nth-child(2) > a").Select(item => item.Text()));
+            dist.DesktopEnvironments = string.Join(",", HTMLDocument.QuerySelectorAll("td.TablesTitle > div:nth-child(2) > ul > li:nth-child(5) > a").Select(item => item.Text()));
+            dist.Categories = string.Join(", ", HTMLDocument.QuerySelectorAll("td.TablesTitle > div:nth-child(2) > ul > li:nth-child(6) > a").Select(item => item.Text()));
+            dist.Architecture = string.Join(", ", HTMLDocument.QuerySelectorAll("td.TablesTitle > div:nth-child(2) > ul > li:nth-child(4) > a").Select(item => item.Text()));
+            dist.Status = HTMLDocument.QuerySelector("td.TablesTitle > div:nth-child(2) > ul > li:nth-child(7) > font").Text();
+            dist.Description = HTMLDocument.QuerySelector("td.TablesTitle > div:nth-child(2)").Text().Split("\n")[7];
+            var a = HTMLDocument.QuerySelector("td.TablesTitle > div:nth-child(2)").Text().Split("\n\r\"");
+            //var path = HTMLDocument.QuerySelector("td.TablesTitle > img").GetAttribute("src");
+            //HttpResponseMessage httpResponse = await httpClient.GetAsync($"{Link}/{path}");
+            //using (FileStream stream = new FileStream($@"img/{distroName}.png", FileMode.OpenOrCreate))
+            //{
+            //    await httpResponse.Content.CopyToAsync(stream);
+            //}
+            //dist.imagePath = $@"img/{distroName}.png";
 #nullable restore
             #endregion
 
